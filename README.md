@@ -2,6 +2,31 @@
 
 A sophisticated software library designed to automatically adjust camera exposure for optimal image brightness on mobile devices. This system integrates various inputs, algorithms, and features to achieve accurate and pleasing exposure across diverse scenes.
 
+## 📚 For Chapter 8 Readers
+
+**This code accompanies Chapter 8 of "Mobile Computational Photography".**
+
+- **📖 [CHAPTER_8_GUIDE.md](doc/CHAPTER_8_GUIDE.md)** - Complete learning roadmap and book mapping
+- **📁 [examples/](examples/)** - Progressive learning examples (start here!)
+- **📋 [CODE_ORGANIZATION.md](doc/CODE_ORGANIZATION.md)** - How code is organized for learning
+- **🚀 [HOW_TO_RUN.md](doc/HOW_TO_RUN.md)** - Quick start guide
+
+**Quick Start for Students:**
+```bash
+# From AutoExposure directory
+cd AutoExposure
+source ../virtual_env/bin/activate
+cd examples
+
+# Option 1: Run all examples automatically (recommended)
+python run_all_examples.py
+
+# Option 2: Run examples individually
+python 01_basic_exposure.py    # Start here!
+python 02_image_statistics.py  # Then this...
+# ... progress through all examples
+```
+
 ## Overview
 
 The Auto Exposure System is a comprehensive solution that processes RAW camera data, image statistics, scene information, and sensor data to automatically determine optimal exposure settings. It provides real-time exposure control with advanced features like face detection, motion analysis, and flicker detection.
@@ -69,8 +94,11 @@ RAW10 Bayer Input → Unpack (10-bit to 8-bit) → Demosaic (Bayer to RGB)
 ### Install Dependencies
 
 ```bash
-# Activate your virtual environment
-source /path/to/virtual_env/bin/activate
+# Navigate to AutoExposure directory
+cd AutoExposure
+
+# Activate virtual environment (one directory above)
+source ../virtual_env/bin/activate
 
 # Install required packages
 pip install -r requirements.txt
@@ -88,11 +116,14 @@ pip install -r requirements.txt
 The test suite processes RAW10 Bayer camera data and generates comprehensive analysis:
 
 ```bash
-# Activate virtual environment
-source /path/to/virtual_env/bin/activate
+# Navigate to AutoExposure directory
+cd AutoExposure
+
+# Activate virtual environment (one directory above)
+source ../virtual_env/bin/activate
 
 # Run the test
-python test_ae_system.py
+python tests/test_ae_system.py
 ```
 
 **Output:**
@@ -103,7 +134,7 @@ python test_ae_system.py
 ### Basic Usage Example
 
 ```python
-from auto_exposure_system import AutoExposureSystem, SensorInfo
+from core.auto_exposure_system import AutoExposureSystem, SensorInfo
 import cv2
 
 # Initialize the system
@@ -133,10 +164,10 @@ print(f"Brightness Value (Bv): {result.brightness_value:.2f}")
 
 ```python
 import numpy as np
-from test_ae_system import load_raw10_image
+from tests.test_ae_system import load_raw10_image
 
-# Load RAW10 file
-raw_bayer = load_raw10_image('your_raw_file.raw', width=4032, height=756)
+# Load RAW10 file from data folder
+raw_bayer = load_raw10_image('data/your_raw_file.raw', width=4032, height=756)
 
 # Convert Bayer to RGB
 import cv2
@@ -647,13 +678,29 @@ The system supports RAW10 format used by mobile camera sensors:
 
 ```
 AutoExposure/
-├── auto_exposure_system.py      # Main AE system implementation
-├── test_ae_system.py             # Test suite with RAW10 loader
+├── README.md                     # This file - main documentation
 ├── requirements.txt              # Python dependencies
-├── README.md                     # This file
-├── design_reference.txt          # Architecture reference
-├── QUICK_REFERENCE.md           # Quick command reference
-├── TEST_RESULTS_SUMMARY.md      # Detailed test results
+│
+├── doc/                          # Documentation folder
+│   ├── CHAPTER_8_GUIDE.md       # Learning roadmap for Chapter 8
+│   ├── CODE_ORGANIZATION.md     # Code organization guide
+│   └── HOW_TO_RUN.md            # Quick start guide
+│
+├── examples/                     # Progressive learning examples
+│   ├── README.md                # Examples guide
+│   ├── 01_basic_exposure.py     # Level 1: Core concepts
+│   ├── 02_image_statistics.py   # Level 1: Statistics extraction
+│   └── ...                      # More examples (Levels 2-7)
+│
+├── core/                         # Production-ready implementation
+│   └── auto_exposure_system.py  # Complete AE system (main implementation)
+│
+├── data/                         # Input data folder
+│   └── 20250929_*.raw           # RAW10 camera data files
+│
+├── tests/                        # Test suite
+│   ├── README.md                # Test documentation
+│   └── test_ae_system.py        # Complete test with RAW10 loader
 ├── ae_test_results.png          # Analysis charts
 └── ae_analysis_output/          # Annotated images
     └── raw_bayer_4032x756_analyzed.png
@@ -664,7 +711,7 @@ AutoExposure/
 ### Custom Scene Type
 
 ```python
-from auto_exposure_system import SceneType, SceneAnalyzer
+from core.auto_exposure_system import SceneType, SceneAnalyzer
 
 # Extend SceneType enum
 SceneType.NIGHT_PORTRAIT = "night_portrait"
@@ -681,7 +728,7 @@ class CustomSceneAnalyzer(SceneAnalyzer):
 ### Custom Exposure Algorithm
 
 ```python
-from auto_exposure_system import ExposureController
+from core.auto_exposure_system import ExposureController
 
 class CustomExposureController(ExposureController):
     def calculate_total_exposure_sensitivity(self, current_stats, scene_info):

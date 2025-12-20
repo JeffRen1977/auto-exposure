@@ -9,20 +9,17 @@
 ### Step 1: Activate Virtual Environment
 
 ```bash
-# Navigate to the root directory
-cd /Users/jeffren/Documents/Learning/Mobile_Computational_photograph
+# Navigate to the AutoExposure directory
+cd AutoExposure
 
-# Activate the virtual environment
-source virtual_env/bin/activate
+# Activate the virtual environment (one directory above)
+source ../virtual_env/bin/activate
 ```
 
 ### Step 2: Install Dependencies
 
 ```bash
-# Navigate to the AutoExposure directory
-cd AutoExposure
-
-# Install required packages
+# Install required packages (from AutoExposure directory)
 pip install -r requirements.txt
 ```
 
@@ -33,11 +30,29 @@ Requirement already satisfied: opencv-python>=4.5.0
 Requirement already satisfied: matplotlib>=3.3.0
 ```
 
-### Step 3: Run the Test Script
+### Step 3: Run Examples or Test Script
+
+**Option A: Run Progressive Learning Examples (Recommended for Chapter 8 readers)**
+
+```bash
+# Navigate to examples directory
+cd examples
+
+# Run all examples in order (with pauses)
+python run_all_examples.py
+
+# Or run without pauses
+python run_all_examples.py --skip
+
+# Or start from a specific example
+python run_all_examples.py 3  # Start from example 3
+```
+
+**Option B: Run Complete Test Suite**
 
 ```bash
 # Run the auto exposure analysis on your RAW10 data
-python test_ae_system.py
+python tests/test_ae_system.py
 ```
 
 ## What the Script Does
@@ -45,7 +60,7 @@ python test_ae_system.py
 The test script will:
 
 1. **Load RAW10 Bayer Data**
-   - Automatically finds `*.raw` files in the directory
+   - Automatically finds `*.raw` files in the `data/` folder
    - Unpacks RAW10 format (10-bit to 8-bit)
    - Demosaics Bayer pattern to RGB
 
@@ -143,22 +158,22 @@ AutoExposure/
 
 ## Using Your Own RAW Data
 
-### Option 1: Replace RAW File
+### Option 1: Use Your Own RAW File
 
-1. Place your RAW10 file in the `AutoExposure/` directory
+1. Place your RAW10 file in the `data/` folder
 2. Ensure filename contains dimensions: `*_WIDTHxHEIGHT_*.raw`
-   - Example: `myimage_4032x756_capture.raw`
-3. Run the script: `python test_ae_system.py`
+   - Example: `data/myimage_4032x756_capture.raw`
+3. Run the script: `python tests/test_ae_system.py`
 
 ### Option 2: Use JPEG/PNG Images
 
-1. Place your JPEG or PNG files in the `AutoExposure/` directory
-2. Edit `test_ae_system.py` line 103-110 to uncomment image loading:
+1. Place your JPEG or PNG files in the `data/` folder
+2. Edit `tests/test_ae_system.py` line 103-110 to uncomment image loading:
 
 ```python
-# Uncomment these lines in test_ae_system.py:
+# Uncomment these lines in tests/test_ae_system.py:
 for ext in ['*.jpg', '*.jpeg', '*.png', '*.JPG', '*.JPEG', '*.PNG']:
-    img_files = glob.glob(os.path.join(current_dir, ext))
+    img_files = glob.glob(os.path.join(data_dir, ext))
     for img_file in img_files:
         filename = os.path.basename(img_file)
         print(f"Loading: {filename}")
@@ -167,14 +182,14 @@ for ext in ['*.jpg', '*.jpeg', '*.png', '*.JPG', '*.JPEG', '*.PNG']:
             images[f'photo_{filename}'] = image
 ```
 
-3. Run the script: `python test_ae_system.py`
+3. Run the script: `python tests/test_ae_system.py`
 
 ## Programmatic Usage
 
 ### Basic Example
 
 ```python
-from auto_exposure_system import AutoExposureSystem, SensorInfo
+from core.auto_exposure_system import AutoExposureSystem, SensorInfo
 import cv2
 
 # Initialize the AE system
@@ -204,11 +219,11 @@ print(f"Total Exposure Sensitivity: {result.total_exposure_sensitivity:.2f}")
 ### Processing RAW10 Data
 
 ```python
-from test_ae_system import load_raw10_image
+from tests.test_ae_system import load_raw10_image
 import cv2
 
-# Load RAW10 file
-raw_bayer = load_raw10_image('your_file.raw', width=4032, height=756)
+# Load RAW10 file from data folder
+raw_bayer = load_raw10_image('data/your_file.raw', width=4032, height=756)
 
 # Convert Bayer to RGB
 image_rgb = cv2.cvtColor(raw_bayer, cv2.COLOR_BayerBG2BGR)
@@ -281,13 +296,13 @@ pip install numpy
 **Solution:**
 1. Ensure RAW file has dimensions in filename: `*_WIDTHxHEIGHT_*.raw`
 2. Or place JPEG/PNG files in the directory
-3. Or uncomment JPEG/PNG loading code in `test_ae_system.py`
+3. Or uncomment JPEG/PNG loading code in `tests/test_ae_system.py`
 
 ### Issue: "Image too dark/bright"
 
 **Solution:** Adjust target brightness
 ```python
-# Edit test_ae_system.py or use programmatically:
+# Edit tests/test_ae_system.py or use programmatically:
 ae_system.exposure_controller.target_brightness = 140  # Increase for brighter
 ae_system.exposure_controller.target_brightness = 110  # Decrease for darker
 ```
@@ -296,16 +311,18 @@ ae_system.exposure_controller.target_brightness = 110  # Decrease for darker
 
 **Solution:**
 ```bash
-# Make sure you're in the correct directory
-cd /Users/jeffren/Documents/Learning/Mobile_Computational_photograph
+# Make sure you're in the AutoExposure directory
+cd AutoExposure
 
-# Try activating again
-source virtual_env/bin/activate
+# Try activating again (virtual_env is one directory above)
+source ../virtual_env/bin/activate
 
-# If it doesn't exist, create it:
+# If it doesn't exist, create it in the parent directory:
+cd ..
 python3 -m venv virtual_env
 source virtual_env/bin/activate
-pip install -r AutoExposure/requirements.txt
+cd AutoExposure
+pip install -r requirements.txt
 ```
 
 ## System Requirements
@@ -361,11 +378,10 @@ For issues or questions:
 
 ```bash
 # Complete workflow
-cd /Users/jeffren/Documents/Learning/Mobile_Computational_photograph
-source virtual_env/bin/activate
 cd AutoExposure
+source ../virtual_env/bin/activate
 pip install -r requirements.txt
-python test_ae_system.py
+python tests/test_ae_system.py
 open ae_analysis_output/
 open ae_test_results.png
 ```

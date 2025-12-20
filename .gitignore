@@ -38,8 +38,12 @@ Thumbs.db
 
 # Project specific
 *.raw
+data/*.raw
 ae_analysis_output/
 ae_test_results.png
+
+# Large files
+*.pdf
 
 # Jupyter Notebook
 .ipynb_checkpoints

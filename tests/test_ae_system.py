@@ -4,9 +4,14 @@ Test script for the Auto Exposure System
 
 import numpy as np
 import cv2
-from auto_exposure_system import AutoExposureSystem, SensorInfo, SceneType
-import matplotlib.pyplot as plt
+import sys
 import os
+# Add parent directory to path to import from core
+current_dir = os.path.dirname(os.path.abspath(__file__))
+parent_dir = os.path.dirname(current_dir)  # Go up one level from tests/ to AutoExposure/
+sys.path.insert(0, parent_dir)
+from core.auto_exposure_system import AutoExposureSystem, SensorInfo, SceneType
+import matplotlib.pyplot as plt
 import glob
 
 
@@ -55,12 +60,14 @@ def load_raw10_image(filepath, width, height):
 
 
 def load_real_images():
-    """Load real image data from the folder"""
+    """Load real image data from the data folder"""
     images = {}
     current_dir = os.path.dirname(os.path.abspath(__file__))
+    # Data folder is one level up from tests/
+    data_dir = os.path.join(os.path.dirname(current_dir), "data")
     
-    # Look for RAW files
-    raw_files = glob.glob(os.path.join(current_dir, "*.raw"))
+    # Look for RAW files in data folder
+    raw_files = glob.glob(os.path.join(data_dir, "*.raw"))
     
     if raw_files:
         print(f"Found {len(raw_files)} RAW file(s)")
@@ -101,7 +108,7 @@ def load_real_images():
     # Skip loading JPEG/PNG images - focus on RAW data only
     # If you want to include reference images, uncomment the code below:
     # for ext in ['*.jpg', '*.jpeg', '*.png', '*.JPG', '*.JPEG', '*.PNG']:
-    #     img_files = glob.glob(os.path.join(current_dir, ext))
+    #     img_files = glob.glob(os.path.join(data_dir, ext))
     #     for img_file in img_files:
     #         filename = os.path.basename(img_file)
     #         print(f"Loading: {filename}")
@@ -192,7 +199,7 @@ def test_individual_components():
     print("\nTesting individual components...")
     
     # Test SpatialFrameAnalyzer
-    from auto_exposure_system import SpatialFrameAnalyzer
+    from core.auto_exposure_system import SpatialFrameAnalyzer
     spatial_analyzer = SpatialFrameAnalyzer()
     
     # Create test Bayer stats
@@ -204,7 +211,7 @@ def test_individual_components():
         print(f"  {key}: {value:.2f}")
     
     # Test HistogramAnalyzer
-    from auto_exposure_system import HistogramAnalyzer
+    from core.auto_exposure_system import HistogramAnalyzer
     histogram_analyzer = HistogramAnalyzer()
     
     # Create test histogram
@@ -216,7 +223,7 @@ def test_individual_components():
         print(f"  {key}: {value:.2f}")
     
     # Test SceneAnalyzer
-    from auto_exposure_system import SceneAnalyzer
+    from core.auto_exposure_system import SceneAnalyzer
     scene_analyzer = SceneAnalyzer()
     
     # Create test image
@@ -235,7 +242,7 @@ def test_flicker_detection():
     """Test flicker detection functionality"""
     print("\nTesting Flicker Detection...")
     
-    from auto_exposure_system import FlickerDetector
+    from core.auto_exposure_system import FlickerDetector
     flicker_detector = FlickerDetector()
     
     # Test various exposure times
@@ -254,7 +261,8 @@ def save_analyzed_images(test_images, results):
     """Save processed images with analysis overlays"""
     print("\nSaving analyzed images...")
     current_dir = os.path.dirname(os.path.abspath(__file__))
-    output_dir = os.path.join(current_dir, "ae_analysis_output")
+    # Output folder is one level up from tests/
+    output_dir = os.path.join(os.path.dirname(current_dir), "ae_analysis_output")
     os.makedirs(output_dir, exist_ok=True)
     
     for scenario, image in test_images.items():
