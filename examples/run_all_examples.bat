@@ -12,3 +12,4 @@ if exist "..\..\virtual_env\Scripts\activate.bat" (
 REM Run the Python script
 python run_all_examples.py %*
 
+
