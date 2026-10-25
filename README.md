@@ -817,7 +817,7 @@ If you use this system in your research or project, please cite:
 ```
 Auto Exposure System for Mobile Computational Photography
 Implementation based on modern camera ISP principles
-https://github.com/your-repo/AutoExposure
+https://github.com/JeffRen1977/auto-exposure
 ```
 
 ## Contact
