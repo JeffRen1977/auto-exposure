@@ -2,14 +2,13 @@
 
 A sophisticated software library designed to automatically adjust camera exposure for optimal image brightness on mobile devices. This system integrates various inputs, algorithms, and features to achieve accurate and pleasing exposure across diverse scenes.
 
-## 📚 For Chapter 8 Readers
+## 📚 For Chapter 9 Readers
 
-**This code accompanies Chapter 8 of "Mobile Computational Photography".**
+**This code accompanies Chapter 9 of "Mobile Computational Photography".**
 
-- **📖 [CHAPTER_8_GUIDE.md](doc/CHAPTER_8_GUIDE.md)** - Complete learning roadmap and book mapping
+- **📖 [CHAPTER_9.md](doc/CHAPTER_9.md)** - Complete chapter documentation and book mapping
 - **📁 [examples/](examples/)** - Progressive learning examples (start here!)
-- **📋 [CODE_ORGANIZATION.md](doc/CODE_ORGANIZATION.md)** - How code is organized for learning
-- **🚀 [HOW_TO_RUN.md](doc/HOW_TO_RUN.md)** - Quick start guide
+- **🚀 Quick start guide below
 
 **Quick Start for Students:**
 ```bash
