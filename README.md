@@ -13,17 +13,21 @@ A sophisticated software library designed to automatically adjust camera exposur
 **Quick Start for Students:**
 ```bash
 # From AutoExposure directory
-cd AutoExposure
 source ../virtual_env/bin/activate
+pip install -r requirements.txt
+
+# Run all examples (recommended)
 cd examples
+python3 run_all_examples.py
 
-# Option 1: Run all examples automatically (recommended)
-python run_all_examples.py
-
-# Option 2: Run examples individually
-python 01_basic_exposure.py    # Start here!
-python 02_image_statistics.py  # Then this...
+# Or run examples individually
+python3 01_basic_exposure.py    # Start here!
+python3 02_image_statistics.py  # Then this...
 # ... progress through all examples
+
+# Run unit tests (from AutoExposure directory)
+cd ..
+python3 -m pytest tests/ -v
 ```
 
 ## Overview
